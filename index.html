@@ -1,0 +1,239 @@
+<html><head><base href="." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sealio - Social Media Platform</title>
+<style>
+:root {
+  --primary: #06b6d4;
+  --background: #f8fafc;
+  --text: #1e293b;
+  --accent: #0ea5e9;
+  --card: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+}
+
+.navbar {
+  background: var(--card);
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.container {
+  max-width: 600px;
+  margin: 80px auto 0;
+  padding: 1rem;
+}
+
+.post-card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.username {
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 20px;
+  transition: background 0.2s;
+}
+
+.like-button:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.seal-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.new-post {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.new-post textarea {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.post-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.post-button:hover {
+  background: var(--accent);
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="logo">
+    <svg class="seal-icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8
+        c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/>
+      <circle cx="12" cy="12" r="3"/>
+      <circle cx="9" cy="9" r="1.5"/>
+      <circle cx="15" cy="9" r="1.5"/>
+      <path d="M12,16c-1.48,0-2.75-0.81-3.45-2h6.9C14.75,15.19,13.48,16,12,16z"/>
+    </svg>
+    Sealio
+  </div>
+</nav>
+
+<div class="container">
+  <div class="new-post">
+    <textarea placeholder="What's on your mind?"></textarea>
+    <button class="post-button">Post</button>
+  </div>
+
+  <div id="posts-container">
+  </div>
+</div>
+
+<script>
+let posts = [];
+const postsContainer = document.getElementById('posts-container');
+const textarea = document.querySelector('textarea');
+const postButton = document.querySelector('.post-button');
+
+  async function initialize() {
+     await window.websim.init();
+     const user = await window.websim.getCreatedBy();
+     if (user) {
+         createPost('Welcome to Sealio! 🦭', user.username);
+     }
+  }
+
+  async function createPost(content, username) {
+      const user = await window.websim.getCreatedBy();
+      if (user) {
+          const post = {
+              id: Date.now(),
+              content,
+              username: user.username, // Get username from user object
+              likes: 0,
+              liked: false
+          };
+
+          // Store the post in your Replit database
+          await window.websim.db.collection('posts').insertOne(post);
+
+          posts.unshift(post); // Add to the array for rendering
+          renderPosts();
+      }
+  }
+
+function renderPosts() {
+  postsContainer.innerHTML = posts.map(post => `
+    <div class="post-card" data-id="${post.id}">
+      <div class="user-info">
+        <img class="avatar" src="https://images.websim.ai/avatar/${post.username}" alt="${post.username}">
+        <a href="https://websim.ai/@${post.username}" class="username">@${post.username}</a>
+      </div>
+      <p>${post.content}</p>
+      <button class="like-button" onclick="toggleLike(${post.id})">
+        <svg class="seal-icon" viewBox="0 0 24 24" fill="${post.liked ? '#06b6d4' : '#94a3b8'}">
+          <path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8
+            c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/>
+          <circle cx="12" cy="12" r="3"/>
+          <circle cx="9" cy="9" r="1.5"/>
+          <circle cx="15" cy="9" r="1.5"/>
+          <path d="M12,16c-1.48,0-2.75-0.81-3.45-2h6.9C14.75,15.19,13.48,16,12,16z"/>
+        </svg>
+        <span>${post.likes}</span>
+      </button>
+    </div>
+  `).join('');
+}
+
+async function toggleLike(postId) {
+  const post = posts.find(p => p.id === postId);
+  if (post) {
+    post.liked = !post.liked;
+    post.likes += post.liked ? 1 : -1;
+    renderPosts();
+  }
+}
+
+postButton.addEventListener('click', async () => {
+  const content = textarea.value.trim();
+  if (content) {
+    const user = await window.websim.getCreatedBy();
+    if (user) {
+      createPost(content, user.username);
+      textarea.value = '';
+    }
+  }
+});
+
+initialize();
+</script>
+</body></html>
