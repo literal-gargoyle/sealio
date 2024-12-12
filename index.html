@@ -1,240 +1,201 @@
-<html><head><base href="." />
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Funny lil seal man">
-<title>Sealio - Social Media Platform</title>
-<style>
-:root {
-  --primary: #06b6d4;
-  --background: #f8fafc;
-  --text: #1e293b;
-  --accent: #0ea5e9;
-  --card: #ffffff;
-}
+<html>
+<head>
+    <base href="." />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSeal - Social Media Platform</title>
+    <style>
+    :root {
+      --primary: #06b6d4;
+      --background: #f8fafc;
+      --text: #1e293b;
+      --accent: #0ea5e9;
+      --card: #ffffff;
+    }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-body {
-  background: var(--background);
-  color: var(--text);
-}
+    body {
+      background: var(--background);
+      color: var(--text);
+    }
 
-.navbar {
-  background: var(--card);
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 100;
-}
+    .navbar {
+      background: var(--card);
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-.container {
-  max-width: 600px;
-  margin: 80px auto 0;
-  padding: 1rem;
-}
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
 
-.post-card {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+    .auth-buttons button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
+    .auth-buttons button:hover {
+      background: var(--accent);
+    }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+    .container {
+      max-width: 600px;
+      margin: 80px auto 0;
+      padding: 1rem;
+    }
 
-.username {
-  font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
-}
+    .form-card, .post-card, .new-post {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-.like-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text);
-  font-size: 0.9rem;
-  padding: 0.5rem;
-  border-radius: 20px;
-  transition: background 0.2s;
-}
+    .form-card input, .form-card button {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
 
-.like-button:hover {
-  background: rgba(0,0,0,0.05);
-}
+    .form-card button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.seal-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.new-post {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.new-post textarea {
-  width: 100%;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  resize: vertical;
-  min-height: 100px;
-}
-
-.post-button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s;
-}
-
-.post-button:hover {
-  background: var(--accent);
-}
-</style>
+    .form-card button:hover {
+      background: var(--accent);
+    }
+    </style>
 </head>
 <body>
-<nav class="navbar">
-  <div class="logo">
-    <svg class="seal-icon" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8
-        c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/>
-      <circle cx="12" cy="12" r="3"/>
-      <circle cx="9" cy="9" r="1.5"/>
-      <circle cx="15" cy="9" r="1.5"/>
-      <path d="M12,16c-1.48,0-2.75-0.81-3.45-2h6.9C14.75,15.19,13.48,16,12,16z"/>
-    </svg>
-    Sealio
-  </div>
-</nav>
+    <nav class="navbar">
+        <div class="logo">
+            <svg class="seal-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8
+                  c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/>
+                <circle cx="12" cy="12" r="3"/>
+                <circle cx="9" cy="9" r="1.5"/>
+                <circle cx="15" cy="9" r="1.5"/>
+                <path d="M12,16c-1.48,0-2.75-0.81-3.45-2h6.9C14.75,15.19,13.48,16,12,16z"/>
+            </svg>
+            WebSeal
+        </div>
+        <div class="auth-buttons">
+            <button id="login-button">Log In</button>
+            <button id="signup-button">Sign Up</button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="form-card" id="auth-section">
+            <h3 id="auth-title">Sign Up</h3>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" />
+            <button id="auth-button">Sign Up</button>
+            <p id="toggle-auth">Already have an account? <a href="#" id="switch-to-login">Log in</a></p>
+        </div>
 
-<div class="container">
-  <div class="new-post">
-    <textarea placeholder="What's on your mind?"></textarea>
-    <button class="post-button">Post</button>
-  </div>
+        <div class="new-post" id="post-section" style="display: none;">
+            <textarea id="post-content" placeholder="What's on your mind?"></textarea>
+            <button id="post-button">Post</button>
+        </div>
 
-  <div id="posts-container">
-  </div>
-</div>
-
-<script>
-let posts = [];
-const postsContainer = document.getElementById('posts-container');
-const textarea = document.querySelector('textarea');
-const postButton = document.querySelector('.post-button');
-
-  async function initialize() {
-     await window.websim.init();
-     const user = await window.websim.getCreatedBy();
-     if (user) {
-         createPost('Welcome to Sealio! 🦭', user.username);
-     }
-  }
-
-  async function createPost(content, username) {
-      const user = await window.websim.getCreatedBy();
-      if (user) {
-          const post = {
-              id: Date.now(),
-              content,
-              username: user.username, // Get username from user object
-              likes: 0,
-              liked: false
-          };
-
-          // Store the post in your Replit database
-          await window.websim.db.collection('posts').insertOne(post);
-
-          posts.unshift(post); // Add to the array for rendering
-          renderPosts();
-      }
-  }
-
-function renderPosts() {
-  postsContainer.innerHTML = posts.map(post => `
-    <div class="post-card" data-id="${post.id}">
-      <div class="user-info">
-        <img class="avatar" src="https://images.websim.ai/avatar/${post.username}" alt="${post.username}">
-        <a href="https://websim.ai/@${post.username}" class="username">@${post.username}</a>
-      </div>
-      <p>${post.content}</p>
-      <button class="like-button" onclick="toggleLike(${post.id})">
-        <svg class="seal-icon" viewBox="0 0 24 24" fill="${post.liked ? '#06b6d4' : '#94a3b8'}">
-          <path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8
-            c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/>
-          <circle cx="12" cy="12" r="3"/>
-          <circle cx="9" cy="9" r="1.5"/>
-          <circle cx="15" cy="9" r="1.5"/>
-          <path d="M12,16c-1.48,0-2.75-0.81-3.45-2h6.9C14.75,15.19,13.48,16,12,16z"/>
-        </svg>
-        <span>${post.likes}</span>
-      </button>
+        <div id="posts-container"></div>
     </div>
-  `).join('');
-}
 
-async function toggleLike(postId) {
-  const post = posts.find(p => p.id === postId);
-  if (post) {
-    post.liked = !post.liked;
-    post.likes += post.liked ? 1 : -1;
-    renderPosts();
-  }
-}
+    <script>
+    let isSignup = true;
 
-postButton.addEventListener('click', async () => {
-  const content = textarea.value.trim();
-  if (content) {
-    const user = await window.websim.getCreatedBy();
-    if (user) {
-      createPost(content, user.username);
-      textarea.value = '';
+    document.getElementById('switch-to-login').addEventListener('click', (e) => {
+        e.preventDefault();
+        isSignup = !isSignup;
+        document.getElementById('auth-title').textContent = isSignup ? 'Sign Up' : 'Log In';
+        document.getElementById('auth-button').textContent = isSignup ? 'Sign Up' : 'Log In';
+        document.getElementById('toggle-auth').innerHTML = isSignup
+            ? 'Already have an account? <a href="#" id="switch-to-login">Log in</a>'
+            : 'Don\'t have an account? <a href="#" id="switch-to-login">Sign up</a>';
+    });
+
+    document.getElementById('auth-button').addEventListener('click', async () => {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        if (username && password) {
+            const endpoint = isSignup ? '/signup' : '/login';
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert(`${isSignup ? 'Signed up' : 'Logged in'} successfully`);
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('post-section').style.display = 'block';
+            } else {
+                alert(result.message || 'An error occurred');
+            }
+        }
+    });
+
+    document.getElementById('post-button').addEventListener('click', async () => {
+        const content = document.getElementById('post-content').value.trim();
+        if (content) {
+            const response = await fetch('/create-post', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content }),
+            });
+            const post = await response.json();
+            if (post) {
+                renderPosts([post]);
+            }
+        }
+    });
+
+    function renderPosts(posts) {
+        const postsContainer = document.getElementById('posts-container');
+        postsContainer.innerHTML = posts.map(post => `
+            <div class="post-card">
+                <div class="user-info">
+                    <span class="username">@${post.username}</span>
+                </div>
+                <p>${post.content}</p>
+            </div>
+        `).join('');
     }
-  }
-});
-
-initialize();
-</script>
-</body></html>
+    </script>
+</body>
+</html>
