@@ -1,0 +1,65 @@
+{
+    "posts": [
+      {
+        "id": 1,
+        "content": "How to use Python for web scraping to collect data from websites!",
+        "hashtags": ["#python", "#webscraping", "#data"]
+      },
+      {
+        "id": 2,
+        "content": "The best JavaScript libraries to use for modern web development.",
+        "hashtags": ["#javascript", "#webdevelopment", "#coding"]
+      },
+      {
+        "id": 3,
+        "content": "Exploring the basics of machine learning for beginners. Start here!",
+        "hashtags": ["#machinelearning", "#AI", "#beginner"]
+      },
+      {
+        "id": 4,
+        "content": "Why everyone should learn Python: A beginner's guide.",
+        "hashtags": ["#python", "#learning", "#programming"]
+      },
+      {
+        "id": 5,
+        "content": "Building a personal website from scratch: Step-by-step tutorial.",
+        "hashtags": ["#webdevelopment", "#HTML", "#CSS", "#tutorial"]
+      },
+      {
+        "id": 6,
+        "content": "Machine learning models: Tips for improving accuracy and efficiency.",
+        "hashtags": ["#machinelearning", "#AI", "#datascience"]
+      },
+      {
+        "id": 7,
+        "content": "Top 10 tips for debugging your code effectively.",
+        "hashtags": ["#coding", "#debugging", "#programming"]
+      },
+      {
+        "id": 8,
+        "content": "Getting started with data visualization in Python: A hands-on approach.",
+        "hashtags": ["#python", "#datavisualization", "#datascience"]
+      },
+      {
+        "id": 9,
+        "content": "AI is transforming the healthcare industry. Here's how.",
+        "hashtags": ["#AI", "#healthcare", "#technology"]
+      },
+      {
+        "id": 10,
+        "content": "Why algorithms are the foundation of every software system.",
+        "hashtags": ["#algorithms", "#computerscience", "#programming"]
+      },
+      {
+        "id": 11,
+        "content": "How to build a chatbot with Python and machine learning.",
+        "hashtags": ["#python", "#AI", "#chatbot"]
+      },
+      {
+        "id": 12,
+        "content": "Is Python the best programming language for beginners? Find out!",
+        "hashtags": ["#python", "#programming", "#beginner"]
+      }
+    ]
+  }
+  

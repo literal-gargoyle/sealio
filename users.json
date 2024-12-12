@@ -1,0 +1,29 @@
+{
+    "users": [
+        {
+            "handle": "@graysondev",
+            "liked_hashtags": [
+                "#python",
+                "#machinelearning",
+                "#AI",
+                "#javascript",
+                "#webdevelopment",
+                "#coding",
+                "#datavisualization",
+                "#datascience",
+                "#chatbot",
+                "#learning",
+                "#programming",
+                "#beginner"
+            ]
+        },
+        {
+            "handle": "@vanze",
+            "liked_hashtags": [
+                "#coding",
+                "#programming",
+                "#developer"
+            ]
+        }
+    ]
+}
