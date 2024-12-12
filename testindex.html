@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        .recommendation {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .recommendation h3 {
+            margin: 0;
+        }
+        .recommendation p {
+            margin: 5px 0;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            padding: 8px 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .like-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border: none;
+        }
+        .like-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recommendation System</h1>
+    
+    <form action="/" method="POST">
+        <label for="handle">Enter User Handle (e.g., @graysondev):</label>
+        <input type="text" id="handle" name="handle" required>
+        <input type="submit" value="Get Recommendations">
+    </form>
+
+    {% if recommendations %}
+        <h2>Recommended Posts:</h2>
+        {% for post, score in recommendations %}
+            <div class="recommendation">
+                <h3>Score: {{ score }}</h3>
+                <p>{{ post }}</p>
+                <form action="/like_post" method="POST">
+                    <input type="hidden" name="handle" value="{{ request.form['handle'] }}">
+                    <input type="hidden" name="post_id" value="{{ loop.index }}">
+                    <button type="submit" class="like-btn">Like</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
