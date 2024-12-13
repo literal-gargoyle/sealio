@@ -1,115 +1,81 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import json
 from difflib import SequenceMatcher
 import random
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Secret key for sessions
+
+# Dummy user data
+users_db = []
 
 # Function to calculate similarity between hashtags
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
-# Recommend posts based on user preferences and engagement potential
-def recommend_posts(user_liked_hashtags, posts, threshold=0.3):
-    recommendations = []
+# Load users from JSON (use actual file in a production environment)
+def load_users_from_json():
+    return users_db  # In-memory storage for simplicity
+
+# Add a new user
+def add_user(username, password):
+    users_db.append({"username": username, "password": password})
+
+# Check if user exists (authentication)
+def authenticate(username, password):
+    user = next((u for u in users_db if u['username'] == username), None)
+    if user and user['password'] == password:
+        return True
+    return False
+
+# Route to handle signup
+@app.route("/signup", methods=["POST"])
+def signup():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
     
-    for post in posts:
-        score = 0
-        
-        # Calculate relevance score based on hashtag similarity
-        for hashtag in post["hashtags"]:
-            for liked_hashtag in user_liked_hashtags:
-                score += similar(hashtag, liked_hashtag)
-        
-        # Increase score for popular topics (like machine learning or Python)
-        popular_topics = ["#python", "#machinelearning", "#AI", "#webdevelopment"]
-        for hashtag in post["hashtags"]:
-            if hashtag in popular_topics:
-                score += 0.5  # Add more weight for popular topics
-        
-        # Adjust score for engagement potential (e.g., tips, tutorials)
-        if "tips" in post["content"] or "guide" in post["content"]:
-            score += 0.4
-        
-        # Random factor for engagement, simulating real user interest
-        score += random.uniform(0.1, 0.3)
-        
-        # Only consider posts that pass a minimum threshold for similarity
-        if score > threshold:
-            recommendations.append((post["content"], score))
+    # Check if username already exists
+    if any(user['username'] == username for user in users_db):
+        return jsonify({"success": False, "message": "Username already exists"})
     
-    # Sort recommendations based on score
-    recommendations.sort(key=lambda x: x[1], reverse=True)
-    return recommendations
+    # Add user to the in-memory database
+    add_user(username, password)
+    
+    return jsonify({"success": True, "message": "User created successfully"})
 
-# Load users and posts from their respective JSON files
-def load_users_from_json(filename):
-    with open(filename, 'r') as file:
-        data = json.load(file)
-    return data["users"]
+# Route to handle login
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
 
-def load_posts_from_json(filename):
-    with open(filename, 'r') as file:
-        data = json.load(file)
-    return data["posts"]
+    # Authenticate user
+    if authenticate(username, password):
+        session['username'] = username  # Store username in session
+        return jsonify({"success": True, "message": "Logged in successfully"})
+    else:
+        return jsonify({"success": False, "message": "Invalid username or password"})
 
-# Find a user's liked hashtags by their handle
-def get_user_liked_hashtags(users, handle):
-    for user in users:
-        if user["handle"] == handle:
-            return user["liked_hashtags"]
-    return []
+# Route for the home page (after login)
+@app.route("/home")
+def home():
+    if 'username' in session:
+        # Display posts, or other content for logged-in users
+        return render_template("home.html", username=session['username'])
+    return redirect(url_for("index"))
 
-# Add a hashtag to the user's liked hashtags
-def update_user_likes(users, handle, post_hashtags):
-    for user in users:
-        if user["handle"] == handle:
-            for hashtag in post_hashtags:
-                if hashtag not in user["liked_hashtags"]:
-                    user["liked_hashtags"].append(hashtag)
-    return users
+# Route to log out
+@app.route("/logout")
+def logout():
+    session.pop('username', None)  # Remove username from session
+    return redirect(url_for("index"))
 
-# Save updated user data back to JSON file
-def save_users_to_json(users, filename="users.json"):
-    with open(filename, 'w') as file:
-        json.dump({"users": users}, file, indent=4)
-
-# Main route to display form and recommendations
+# Main route to display the login/signup page
 @app.route("/", methods=["GET", "POST"])
 def index():
-    recommended = []
-    if request.method == "POST":
-        user_handle = request.form["handle"]
-        users = load_users_from_json("users.json")
-        posts = load_posts_from_json("posts.json")
-
-        user_liked_hashtags = get_user_liked_hashtags(users, user_handle)
-        if user_liked_hashtags:
-            recommended = recommend_posts(user_liked_hashtags, posts)
-        else:
-            recommended = [("No recommendations found for this user.", 0)]
-    
-    return render_template("index.html", recommendations=recommended)
-
-# Route to handle liking a post
-@app.route("/like_post", methods=["POST"])
-def like_post():
-    user_handle = request.form["handle"]
-    post_id = int(request.form["post_id"])
-    
-    # Load posts and users
-    users = load_users_from_json("users.json")
-    posts = load_posts_from_json("posts.json")
-    
-    # Get the hashtags of the liked post
-    liked_post = next((post for post in posts if post["id"] == post_id), None)
-    if liked_post:
-        hashtags = liked_post["hashtags"]
-        # Update the user's liked hashtags
-        users = update_user_likes(users, user_handle, hashtags)
-        save_users_to_json(users)  # Save updated users data
-    
-    return redirect(url_for("index"))
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
