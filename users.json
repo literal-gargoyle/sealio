@@ -1,7 +1,8 @@
 {
     "users": [
         {
-            "handle": "@graysondev",
+            "username": "@graysondev",
+            "password": "$pbkdf2-sha256$29000$8uBa5dGzPzxHgakTxZZXwQ$3hZTeT9s5RuPfywr5/ZTS6d6LZZEKNuUo2eHOrq9s2E",
             "liked_hashtags": [
                 "#python",
                 "#machinelearning",
@@ -18,12 +19,18 @@
             ]
         },
         {
-            "handle": "@vanze",
+            "username": "@vanze",
+            "password": "$pbkdf2-sha256$29000$zAw0G1MABhlU5lDq2OZY5w$TOfz8bOrsbzgrPYwQ2ePb/G7eHi7oH//IKJl0o59nt4",
             "liked_hashtags": [
                 "#coding",
                 "#programming",
                 "#developer"
             ]
+        },
+        {
+            "username": "@grayson",
+            "password": "scrypt:32768:8:1$NI321JOPQzQklVQN$756977af83314b3f13b23bb2d0d9bec921da20a6526910c4fb5c78c7f41d87ed6cdc4a4f26c2e3412adfca1e12ec97b6a9caeaf81f1f76490a10493aa5f8a24e",
+            "liked_hashtags": []
         }
     ]
 }
